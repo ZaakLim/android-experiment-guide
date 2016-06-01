@@ -1199,8 +1199,36 @@ GitHub代码：https://github.com/hzuapps/android-labs/tree/master/app/src/main/
 
 ###9. 相机
 
+####1.调用系统摄像头拍摄一张图片，使用系统自带的图片裁剪功能对图片进行裁剪
 
-
+####2.调用系统摄像头
+```
+  private static int CAMERA_REQUEST_CODE = 1;    //摄像头请求码
+  
+  Button btn_camera = (Button) findViewById(R.id.btn_camera);                   //摄像头按钮
+         btn_camera.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  //打开拍照界面
+                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
+             }
+         });
+```         
+####3.调用图片裁剪功能    
+```
+  private static int CROP_REQUEST_CODE=3;        //裁剪器请求码     
+  
+  private void startImageZoom(Uri uri){                       //图像裁剪功能
+         Intent intent = new Intent("com.android.camera.action.CROP");
+         intent.setDataAndType(uri,"image/*");                //数据通过uri传递；类型为image
+         intent.putExtra("crop","true");
+         intent.putExtra("aspectX",1);
+         intent.putExtra("aspectY",1);   
+         intent.putExtra("outputX",150);
+         intent.putExtra("outputY",150);
+         intent.putExtra("return-data",true);
+         startActivityForResult(intent,CROP_REQUEST_CODE);   //启动图像裁剪界面
+     }
+```
 
 
 ###10. 手机震动（调用加速度传感器）
